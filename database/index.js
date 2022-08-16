@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+ const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/fetcher');
 
 let repoSchema = mongoose.Schema({
@@ -33,4 +33,13 @@ let save = (repos) => {
 //     })
 // }
 
+// This function should get repos from mongoDB
+let getRepos = (callback) => {
+  Repo.find({}).sort({stars: -1}).exec()
+  .then((repos) => {
+    callback(null, repos);
+  })
+}
+
 module.exports.save = save;
+module.exports.getRepos = getRepos;
