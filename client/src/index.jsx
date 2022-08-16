@@ -9,7 +9,8 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      repos: []
+      displayRepos: [],
+      allRepos: []
     }
     this.search = this.search.bind(this);
   }
@@ -17,8 +18,12 @@ class App extends React.Component {
   componentDidMount() {
     axios.get('/repos')
       .then((res) => {
-        this.setState({repos: res.data})
-        // console.log(this.state.repos)
+        let top25Repos = res.data.slice(0, 25);
+        this.setState({
+          displayRepos: top25Repos,
+          allRepos: res.data
+        })
+        // console.log(res.data)
       })
   }
 
@@ -33,7 +38,10 @@ class App extends React.Component {
     return (<div>
       <h1>Github Fetcher</h1>
       <Search onSearch={this.search}/>
-      <RepoList repos={this.state.repos}/>
+      <RepoList
+      displayRepos = {this.state.displayRepos}
+      allRepos={this.state.allRepos}
+      />
     </div>)
   }
 }

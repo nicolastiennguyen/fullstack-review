@@ -6,13 +6,13 @@ class RepoList extends React.Component {
   }
 
   render() {
-    let dbRepos = this.props.repos.map((repo) => {
-      return (<li>{repo.repo_name}</li>)
+    let dbRepos = this.props.displayRepos.map((repo) => {
+      return (<li>{repo.repo_name} created by {repo.username}</li>)
     })
     return(<div>
       <h4> Repo List Component </h4>
-      There are {this.props.repos.length} repos.
-      <h2> Here are the repos based on Stargazers:
+      There are {this.props.allRepos.length} total repos in the database.
+      <h2> Here are the top 25 repos based on Stargazers:
         <ol>{dbRepos}</ol>
       </h2>
     </div>)
