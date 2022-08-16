@@ -14,6 +14,14 @@ class App extends React.Component {
     this.search = this.search.bind(this);
   }
 
+  componentDidMount() {
+    axios.get('/repos')
+      .then((res) => {
+        this.setState({repos: res.data})
+        // console.log(this.state.repos)
+      })
+  }
+
   search (term) {
     console.log(`${term} was searched`);
     axios.post('/repos', {
@@ -24,8 +32,8 @@ class App extends React.Component {
   render () {
     return (<div>
       <h1>Github Fetcher</h1>
-      <RepoList repos={this.state.repos}/>
       <Search onSearch={this.search}/>
+      <RepoList repos={this.state.repos}/>
     </div>)
   }
 }
