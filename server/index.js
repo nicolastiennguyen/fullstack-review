@@ -10,16 +10,20 @@ let db = require('../database')
 // and get the repo information from the github API, then
 // save the repo information in the database
 app.post('/repos', function (req, res) {
+  // console.log(req.body.username)
   const repos = helper.getReposByUsername(req.body.username);
   if (repos === false) res.sendStatus(400);
+  // console.log(repos)
 
   repos
+  // value.data is an array of objects
+  // with each object being the repo information
     .then((value) => {
-      // console.log(value, '=====================')
-      db.save(value);
+      // console.log(value.data)
+      db.save(value.data);
     })
     .catch((error) => {
-      console.log('error')
+      console.log('error saving information to database')
     })
 });
 
