@@ -10,6 +10,7 @@ let repoSchema = mongoose.Schema({
 let Repo = mongoose.model('Repo', repoSchema);
 
 // This function should save a repo or repos to the MongoDB
+// returns a promise that is pending
 let save = (repos) => {
   Repo.insertMany(repos)
     .then (() => {

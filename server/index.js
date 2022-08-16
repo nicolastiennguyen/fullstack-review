@@ -2,17 +2,21 @@ const express = require('express');
 let app = express();
 app.use(express.json());
 app.use(express.static(__dirname + '/../client/dist'));
-let controllers = require('./controllers/repos.js')
+// let controllers = require('./controllers/repos.js')
 let helper = require('../helpers/github.js')
+let db = require('../database')
 
 // This route should take the github username provided
 // and get the repo information from the github API, then
 // save the repo information in the database
 app.post('/repos', function (req, res) {
-  const repos = helper.getReposByUsername(req.body.username)
+  const repos = helper.getReposByUsername(req.body.username);
   if (repos === false) res.sendStatus(400);
-    .then((repos) => {
-      helper.save(repos);
+
+  repos
+    .then((value) => {
+      // console.log(value, '=====================')
+      db.save(value);
     })
     .catch((error) => {
       console.log('error')
