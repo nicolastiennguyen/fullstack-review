@@ -30,9 +30,11 @@ class App extends React.Component {
     console.log(`${term} was searched`);
     axios.post('/repos', {username: term})
       .then(() => {
-        axios.get('/repos')
+        console.log('post is working')
+        return axios.get('/repos')
       })
       .then((res) => {
+        console.log(res)
         let top25Repos= res.data.slice(0, 25);
         this.setState({
           displayRepos: top25Repos,

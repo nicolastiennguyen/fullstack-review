@@ -10,6 +10,7 @@ let db = require('../database')
 // and get the repo information from the github API, then
 // save the repo information in the database
 app.post('/repos', (req, res) => {
+  console.log(req.body.username)
   const repos = helper.getReposByUsername(req.body.username);
   if (repos === false) return res.sendStatus(400);
 
@@ -17,6 +18,7 @@ app.post('/repos', (req, res) => {
     .then((value) => {
       // console.log('value: ', value);
       db.save(value.data);
+      res.sendStatus(201);
     })
     .catch((error) => {
       console.log('error saving information to database');
@@ -29,7 +31,7 @@ app.get('/repos', (req, res) => {
     if (err) {
       console.log('error getting repos from database in server/index.js');
     } else {
-      res.json(repos);
+      res.status(200).json(repos);
     }
   })
 });

@@ -12,8 +12,8 @@ let repoSchema = mongoose.Schema({
 let Repo = mongoose.model('Repo', repoSchema);
 
 // This function should save a repo or repos to the MongoDB
-let save = async (repos) => {
-  await Promise.all(repos.map((repo) => {
+let save = (repos) => {
+  return Promise.all(repos.map((repo) => {
     const filter = {id: repo.id}
     const update = {repo_name: repo.name, username: repo.owner.login, repo_url: repo.html_url, stars: repo.stargazers_count}
     return Repo.findOneAndUpdate(filter, update, {
@@ -21,8 +21,6 @@ let save = async (repos) => {
       upsert: true
     });
   }));
-
-  return;
 };
 
 // let save = (repos) => {
