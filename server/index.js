@@ -11,10 +11,11 @@ let db = require('../database')
 // save the repo information in the database
 app.post('/repos', (req, res) => {
   const repos = helper.getReposByUsername(req.body.username);
-  if (repos === false) res.sendStatus(400);
+  if (repos === false) return res.sendStatus(400);
 
   repos
     .then((value) => {
+      // console.log('value: ', value);
       db.save(value.data);
     })
     .catch((error) => {

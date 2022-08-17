@@ -23,15 +23,23 @@ class App extends React.Component {
           displayRepos: top25Repos,
           allRepos: res.data
         })
-        // console.log(res.data)
       })
   }
 
   search (term) {
     console.log(`${term} was searched`);
-    axios.post('/repos', {
-      username: term
-    })
+    axios.post('/repos', {username: term})
+      .then(() => {
+        axios.get('/repos')
+      })
+      .then((res) => {
+        let top25Repos= res.data.slice(0, 25);
+        this.setState({
+          displayRepos: top25Repos,
+          allRepos: res.data
+        })
+      })
+     .catch(e => console.error(e));
   };
 
   render () {

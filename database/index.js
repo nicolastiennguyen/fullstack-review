@@ -5,15 +5,15 @@ let repoSchema = mongoose.Schema({
   id: {type: Number, unique: true},
   repo_name: String,
   username: String,
-  repo_url: String,
+  repo_url: {type: String, unique: true},
   stars: Number
 });
 
 let Repo = mongoose.model('Repo', repoSchema);
 
 // This function should save a repo or repos to the MongoDB
-let save = (repos) => {
-  return Promise.all(repos.map((repo) => {
+let save = async (repos) => {
+  await Promise.all(repos.map((repo) => {
     const filter = {id: repo.id}
     const update = {repo_name: repo.name, username: repo.owner.login, repo_url: repo.html_url, stars: repo.stargazers_count}
     return Repo.findOneAndUpdate(filter, update, {
@@ -21,9 +21,12 @@ let save = (repos) => {
       upsert: true
     });
   }));
+
+  return;
 };
 
 // let save = (repos) => {
+//   // console.log('repos: ', repos)
 //   Repo.insertMany(repos)
 //     .then (() => {
 //       console.log("Data inserted")

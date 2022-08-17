@@ -7,7 +7,7 @@ let getReposByUsername = async (username) => {
     url: `https://api.github.com/users/${username}/repos`,
     headers: {
       'User-Agent': 'request',
-      'Authorization': `token ${config.TOKEN}`
+      'Authorization': `${config.TOKEN}`
     }
   };
 
@@ -16,12 +16,9 @@ let getReposByUsername = async (username) => {
     const data = await axios.get(options.url, options.headers);
     return data;
   } catch (e) {
+    console.log('try catch error: ', e);
     return false;
   }
-
-
-  const data = await axios.get(options.url, options.headers);
-  return data;
 }
 
 module.exports.getReposByUsername = getReposByUsername;
